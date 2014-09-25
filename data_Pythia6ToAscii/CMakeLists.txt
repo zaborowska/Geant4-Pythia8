@@ -3,6 +3,8 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(example_MyPythia)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Modules)
+
 find_package(Geant4 REQUIRED)
 include(${Geant4_USE_FILE})
 
@@ -16,7 +18,7 @@ if(NOT HEPMC_FOUND)
 endif()
 
 #----------------------------------------------------------------------------
-# Find Pythia6 (optional package)
+# Find Pythia6 (required package)
 #
 find_package(Pythia6 QUIET)
 if(PYTHIA6_FOUND)
@@ -24,6 +26,8 @@ if(PYTHIA6_FOUND)
   add_definitions(-DG4LIB_USE_PYTHIA) 
 else()
   set(PYTHIA6_LIBRARIES "")  
+  message(STATUS "G4 Examples: Pythia6 package not found. --> example_MyPythia example disabled")  
+  return()
 endif()
 
 #----------------------------------------------------------------------------

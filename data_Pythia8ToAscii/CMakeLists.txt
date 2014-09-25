@@ -3,6 +3,8 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(main42)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Modules)
+
 find_package(Geant4 REQUIRED)
 include(${Geant4_USE_FILE})
 
@@ -18,45 +20,7 @@ endif()
 #----------------------------------------------------------------------------
 # Find Pythia8 (required package)
 #
-#find_package(Pythia8 QUIET)
-#==============================================================================
-# Locate Pythia8 library
-# in a directory defined via PYTHIA8 environment variable
-#
-# Defines:
-#  PYTHIA8_FOUND
-#  PYTHIA8_LIBRARIES
-
-find_path(PYTHIA8_INCLUDE_DIR Pythia8/Pythia.h Pythia8/Pythia8ToHepMC.h
-          HINTS $ENV{PYTHIA8LOCATION}/include ${PYTHIA8LOCATION}/include
-          $ENV{PYTHIA8}/include ${PYTHIA8}/include)
-
-# message(STATUS PYTHIA8_INCLUDE_DIR ${PYTHIA8_INCLUDE_DIR} )
-
-find_library(PYTHIA8_LIBRARY NAMES pythia8
-			     HINTS $ENV{PYTHIA8LOCATION}/lib ${PYTHIA8LOCATION}/lib
-			     HINTS $ENV{PYTHIA8}/lib ${PYTHIA8}/lib)
-
-# message(STATUS PYTHIA8_LIBRARY ${PYTHIA8_LIBRARY} )
-
-find_library(PYTHIA8_HEPMC_LIBRARY NAMES pythia8tohepmc
-			     HINTS $ENV{PYTHIA8LOCATION}/lib ${PYTHIA8LOCATION}/lib
-			     HINTS $ENV{PYTHIA8}/lib ${PYTHIA8}/lib)
-
-# message(STATUS PYTHIA8_HEPMC_LIBRARY ${PYTHIA8_HEPMC_LIBRARY} )
-
-find_library(PYTHIA8_HAPDF_LIBRARY NAMES lhapdfdummy
-			     HINTS $ENV{PYTHIA8LOCATION}/lib ${PYTHIA8LOCATION}/lib
-			     HINTS $ENV{PYTHIA8}/lib ${PYTHIA8}/lib)
-
-# message(STATUS PYTHIA8_HAPDF_LIBRARY ${PYTHIA8_HAPDF_LIBRARY} )
-
-# handle the QUIETLY and REQUIRED arguments and set PYTHIA8_FOUND to TRUE if
-# all listed variables are TRUE
-INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(Pythia8 DEFAULT_MSG PYTHIA8_LIBRARY)
-mark_as_advanced(PYTHIA8_FOUND PYTHIA8_LIBRARY PYTHIA8_HEPMC_LIBRARY PYTHIA8_HAPDF_LIBRARY)
-#==============================================================================
+find_package(Pythia8 QUIET)
 
 if(PYTHIA8_FOUND)
   message(STATUS "G4 Examples: Pythia8 found. --> main42 with Pythia8 enabled.")
