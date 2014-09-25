@@ -26,7 +26,7 @@ include(${Geant4_USE_FILE})
 find_package(HepMC REQUIRED)
 
 #----------------------------------------------------------------------------
-# Find Pythia6 (optional package)
+# Find Pythia6 (required package)
 #
 find_package(Pythia6 QUIET)
 if(PYTHIA6_FOUND)
@@ -64,8 +64,10 @@ target_link_libraries(HepMCEx02 ${Geant4_LIBRARIES}
 # relies on these scripts being in the current working directory.
 #
 set(HepMCEx02_SCRIPTS
-    hepmc_ascii.in hepmc_ascii.out hepmc_pygen.in hepmc_pygen.out pyh4mu.mac pyset.mac vis.mac
-    data/example_MyPythia.dat
+    hepmc_ascii_Pythia6.in hepmc_ascii_Pythia8.in
+    hepmc_ascii.out hepmc_pygen.in hepmc_pygen.out vis.mac
+    data_Pythia8ToAscii/example_MyPythia8.dat
+    data_Pythia6ToAscii/example_MyPythia.dat
   )
 
 foreach(_script ${HepMCEx02_SCRIPTS})
