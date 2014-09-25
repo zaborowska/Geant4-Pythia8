@@ -74,4 +74,7 @@ Edit main42.cmnd to change any generation detail
 
         export PYTHIA8DATA=/afs/cern.ch/sw/lcg/external/MCGenerators_lcgcmt67b/pythia8/186/x86_64-slc6-gcc47-opt/xmldoc
         build/main42 main42.cmnd example_MyPythia8.dat
+        
+4. Pythia called for each event in Geant
+-------------------
 
