@@ -14,7 +14,8 @@ ____________________________________________________________________
         cd build
         source /afs/cern.ch/sw/lcg/contrib/gcc/4.7.2/x86_64-slc6/setup.sh
         source /afs/cern.ch/sw/lcg/external/geant4/10.0.p02/x86_64-slc6-gcc47-opt/CMake-setup.sh
-        cmake -DHEPMC_ROOT_DIR='/afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc47-opt/' -DCMAKE_INSTALL_PREFIX=. ..
+        cmake -DHEPMC_ROOT_DIR='/afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc47-opt/' -DPYTHIA6='/afs/cern.ch/sw/lcg/external/MCGenerators_lcgcmt67b/pythia6/428.2/x86_64-slc6-gcc47-opt/' -DPYTHIA8='/afs/cern.ch/sw/lcg/external/MCGenerators_lcgcmt67b/pythia8/186/x86_64-slc6-gcc47-opt/' -DCMAKE_INSTALL_PREFIX=. ..
+
 
 
 2. How to run an example
