@@ -31,6 +31,7 @@
 #include "G4ParticleGun.hh"
 #include "HepMCG4AsciiReader.hh"
 #include "HepMCG4PythiaInterface.hh"
+#include "HepMCG4Pythia8Interface.hh"
 #include "H02PrimaryGeneratorAction.hh"
 #include "H02PrimaryGeneratorMessenger.hh"
 
@@ -46,10 +47,16 @@ H02PrimaryGeneratorAction::H02PrimaryGeneratorAction()
 #else
   pythiaGen= 0;
 #endif
+#ifdef G4LIB_USE_PYTHIA8
+  pythia8Gen= new HepMCG4Pythia8Interface();
+#else
+  pythia8Gen= 0;
+#endif
 
   gentypeMap["particleGun"]= particleGun;
   gentypeMap["hepmcAscii"]= hepmcAscii;
   gentypeMap["pythia"]= pythiaGen;
+  gentypeMap["pythia8"]= pythia8Gen;
 
   messenger= new H02PrimaryGeneratorMessenger(this);
 }

@@ -14,7 +14,6 @@ find_path(PYTHIA8_INCLUDE_DIR Pythia8/Pythia.h Pythia8/Pythia8ToHepMC.h
 
 # message(STATUS PYTHIA8_INCLUDE_DIR ${PYTHIA8_INCLUDE_DIR} )
 
-
 find_library(PYTHIA8_LIBRARY NAMES pythia8
 			     HINTS $ENV{PYTHIA8LOCATION}/lib ${PYTHIA8LOCATION}/lib
 			     HINTS $ENV{PYTHIA8}/lib ${PYTHIA8}/lib)
