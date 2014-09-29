@@ -23,10 +23,8 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx01/include/HepMCG4PythiaMessenger.hh
-/// \brief Definition of the HepMCG4PythiaMessenger class
-//
-// $Id: HepMCG4PythiaMessenger.hh 77801 2013-11-28 13:33:20Z gcosmo $
+/// \file eventgenerator/HepMC/HepMCEx03/include/HepMCG4Pythia8Messenger.hh
+/// \brief Definition of the HepMCG4Pythia8Messenger class
 //
 
 #ifndef HEPMC_G4_PYTHIA8_MESSENGER_H
@@ -46,15 +44,12 @@ private:
 
   G4UIdirectory*           dir;
   G4UIcmdWithAnInteger*    verbose;
-//  G4UIcmdWithAnInteger*    mpylist;
   G4UIcmdWithoutParameter* print;
   G4UIcommand*             cpythiainit;
-  G4UIcmdWithAnInteger*    cpythiastat;
+  G4UIcmdWithoutParameter* cpythiastat;
   G4UIcommand*             cpythiaread;
   G4UIcommand*             setUserParameters;
   G4UIcmdWithAnInteger*    setSeed;
-  // G4UIcommand*             cpyrget;
-  // G4UIcommand*             cpyrset;
   G4UIcmdWithAString*      printRandomStatus;
 
 public:

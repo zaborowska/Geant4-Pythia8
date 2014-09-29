@@ -23,14 +23,13 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/src/H02PrimaryGeneratorAction.cc
+/// \file eventgenerator/HepMC/HepMCEx03/src/H02PrimaryGeneratorAction.cc
 /// \brief Implementation of the H02PrimaryGeneratorAction class
 //   $Id: H02PrimaryGeneratorAction.cc 77801 2013-11-28 13:33:20Z gcosmo $
 //
 #include "G4Event.hh"
 #include "G4ParticleGun.hh"
 #include "HepMCG4AsciiReader.hh"
-#include "HepMCG4PythiaInterface.hh"
 #include "HepMCG4Pythia8Interface.hh"
 #include "H02PrimaryGeneratorAction.hh"
 #include "H02PrimaryGeneratorMessenger.hh"
@@ -42,11 +41,6 @@ H02PrimaryGeneratorAction::H02PrimaryGeneratorAction()
   currentGenerator= particleGun= new G4ParticleGun();
   currentGeneratorName= "particleGun";
   hepmcAscii= new HepMCG4AsciiReader();
-#ifdef G4LIB_USE_PYTHIA
-  pythiaGen= new HepMCG4PythiaInterface();
-#else
-  pythiaGen= 0;
-#endif
 #ifdef G4LIB_USE_PYTHIA8
   pythia8Gen= new HepMCG4Pythia8Interface();
 #else
@@ -55,7 +49,6 @@ H02PrimaryGeneratorAction::H02PrimaryGeneratorAction()
 
   gentypeMap["particleGun"]= particleGun;
   gentypeMap["hepmcAscii"]= hepmcAscii;
-  gentypeMap["pythia"]= pythiaGen;
   gentypeMap["pythia8"]= pythia8Gen;
 
   messenger= new H02PrimaryGeneratorMessenger(this);

@@ -23,10 +23,9 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx01/src/HepMCG4PythiaMessenger.cc
-/// \brief Implementation of the HepMCG4PythiaMessenger class
+/// \file eventgenerator/HepMC/HepMCEx03/src/HepMCG4Pythia8Messenger.cc
+/// \brief Implementation of the HepMCG4Pythia8Messenger class for Pythia 8
 //
-// $Id: HepMCG4PythiaMessenger.cc 77801 2013-11-28 13:33:20Z gcosmo $
 //
 
 #ifdef G4LIB_USE_PYTHIA8
@@ -52,12 +51,6 @@ HepMCG4Pythia8Messenger::HepMCG4Pythia8Messenger(HepMCG4Pythia8Interface* agen)
   verbose-> SetParameterName("verboseLevel", false, false);
   verbose-> SetRange("verboseLevel>=0 && verboseLevel<=2");
 
-// NOT USEFUL ANY MORE?
-  // mpylist= new G4UIcmdWithAnInteger("/generator/pythia/pylist",this);
-  // mpylist-> SetGuidance("set argument of pylist (not called if mlist=0)");
-  // mpylist-> SetParameterName("mlist", false, false);
-  // mpylist-> SetRange("mlist>=0 && mlist<=3");
-
   print= new G4UIcmdWithoutParameter("/generator/pythia8/print", this);
   print-> SetGuidance("print user information.");
 
@@ -70,46 +63,22 @@ HepMCG4Pythia8Messenger::HepMCG4Pythia8Messenger(HepMCG4Pythia8Interface* agen)
   G4UIparameter* eCM= new G4UIparameter("energy of system in CM frame (GeV)", 'd', false);
   cpythiainit-> SetParameter(eCM);
 
-  cpythiastat= new G4UIcmdWithAnInteger("/generator/pythia8/stat", this);
-  cpythiastat-> SetGuidance("call PYTHIASTAT");
-  cpythiastat-> SetParameterName("mstat", false, false);
-  cpythiastat-> SetRange("mstat>=1 && mstat<=5");
+  cpythiastat= new G4UIcmdWithoutParameter("/generator/pythia8/stat", this);
+  cpythiastat-> SetGuidance("print statistics");
 
-  cpythiaread= new G4UIcommand("/generator/pythia/read",this);
+  cpythiaread= new G4UIcommand("/generator/pythia8/read",this);
   cpythiaread-> SetGuidance("call PYTHIAREAD");
   G4UIparameter* parameter= new G4UIparameter ("Parameter", 's', false);
   cpythiaread-> SetParameter(parameter);
 
-// ???
   setUserParameters=
     new G4UIcmdWithoutParameter("/generator/pythia8/setUserParameters",this);
   setUserParameters->
     SetGuidance("Set user parameters in the Pythia common blocks");
 
-// ???
-  setSeed= new G4UIcmdWithAnInteger("/generator/pythia/setSeed", this);
+  setSeed= new G4UIcmdWithAnInteger("/generator/pythia8/setSeed", this);
   setSeed-> SetGuidance("set initial seed.");
 
-// NOT USEFUL ANY MORE?
-  // cpyrget= new G4UIcommand("/generator/pythia/pyrget", this);
-  // cpyrget-> SetGuidance("call PYRGET");
-  // G4UIparameter* lun, *move;
-  // lun= new G4UIparameter("logical file number", 'i', false);
-  // cpyrget-> SetParameter(lun);
-  // move= new G4UIparameter("choice of adding a new record", 'i', true);
-  // move-> SetDefaultValue(-1);
-  // cpyrget-> SetParameter(move);
-
-// NOT USEFUL ANY MORE?
-  // cpyrset= new G4UIcommand("/generator/pythia/pyrset", this);
-  // cpyrset-> SetGuidance("call PYRSET");
-  // lun= new G4UIparameter("logical file number", 'i', false);
-  // cpyrset-> SetParameter(lun);
-  // move= new G4UIparameter("choice of adding a new record", 'i', true);
-  // move-> SetDefaultValue(0);
-  // cpyrset-> SetParameter(move);
-
-// ???
   printRandomStatus=
     new G4UIcmdWithAString("/generator/pythia8/printRandomStatus", this);
   printRandomStatus-> SetGuidance("print random number status.");
@@ -121,15 +90,12 @@ HepMCG4Pythia8Messenger::HepMCG4Pythia8Messenger(HepMCG4Pythia8Interface* agen)
 HepMCG4Pythia8Messenger::~HepMCG4Pythia8Messenger()
 {
   delete verbose;
-  // delete mpylist;
   delete print;
   delete cpythiainit;
   delete cpythiastat;
   delete cpythiaread;
   delete setUserParameters;
   delete setSeed;
-  // delete cpyrget;
-  // delete cpyrset;
   delete printRandomStatus;
 
   delete dir;
@@ -144,10 +110,6 @@ void HepMCG4Pythia8Messenger::SetNewValue(G4UIcommand* command,
     G4int level= verbose-> GetNewIntValue(newValues);
     gen-> SetVerboseLevel(level);
 
-    /*} else if (command == mpylist) { // /mpylist ...
-    G4int mlist= mpylist-> GetNewIntValue(newValues);
-    gen-> SetPylist(mlist);
-    */
   } else if (command == print) { // /print ...
     gen-> Print();
 
@@ -159,8 +121,7 @@ void HepMCG4Pythia8Messenger::SetNewValue(G4UIcommand* command,
     gen-> CallPythiaInit(sbeam, starget, dwin);
 
   } else if (command == cpythiastat) { // /pythiastat ...
-    G4int imod= cpythiastat-> GetNewIntValue(newValues);
-    gen-> CallPythiaStat(imod);
+    gen-> CallPythiaStat();
 
   } else if (command == cpythiaread) { // /pythiaread ...
     G4String s= newValues;
@@ -173,20 +134,6 @@ void HepMCG4Pythia8Messenger::SetNewValue(G4UIcommand* command,
     G4int iseed= setSeed-> GetNewIntValue(newValues);
     gen-> SetRandomSeed(iseed);
 
-    /*} else if (command == cpyrget) { // /pyrget ...
-    const char* strvaluelist= newValues.c_str();
-    std::istringstream is(strvaluelist);
-    G4int lun, move;
-    is >> lun >> move;
-    gen-> CallPyrget(lun, move);
-
-  } else if (command == cpyrset) { // /pyrset ...
-    const char* strvaluelist= newValues.c_str();
-    std::istringstream is(strvaluelist);
-    G4int lun, move;
-    is >> lun >> move;
-    gen-> CallPyrset(lun, move);
-    */
   } else if (command == printRandomStatus) { // /printRandomStatus ...
     G4String s= newValues;
     if (newValues == "std::cout") {
@@ -209,9 +156,7 @@ G4String HepMCG4Pythia8Messenger::GetCurrentValue(G4UIcommand* command)
   G4String cv;
   if (command == verbose) {
     cv= verbose-> ConvertToString(gen->GetVerboseLevel());
-  } //else  if (command == mpylist) {
-     //cv= verbose-> ConvertToString(gen->GetPylist());
-     //}
+  }
   return cv;
 }
 

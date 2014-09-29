@@ -23,10 +23,9 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx01/include/HepMCG4PythiaInterface.hh
-/// \brief Definition of the HepMCG4PythiaInterface class
+/// \file eventgenerator/HepMC/HepMCEx03/include/HepMCG4Pythia8Interface.hh
+/// \brief Definition of the HepMCG4Pythia8Interface class
 //
-// $Id: HepMCG4PythiaInterface.hh 77801 2013-11-28 13:33:20Z gcosmo $
 //
 
 #ifndef HEPMC_G4_PYTHIA8_INTERFACE_H
@@ -43,15 +42,11 @@ class HepMCG4Pythia8Messenger;
 class HepMCG4Pythia8Interface : public HepMCG4Interface {
 protected:
    G4int verbose;
-   //G4int mpylist;
-   //HepMC::IO_HEPEVT hepevtio;
    HepMC::Pythia8ToHepMC ToHepMC;
    Pythia8::Pythia pythia;
 
   HepMCG4Pythia8Messenger* messenger;
 
-  // In default, this is automatic conversion, Pythia->HEPEVT->HepMC,
-  // by HepMC utilities.
   virtual HepMC::GenEvent* GenerateHepMCEvent();
 
 public:
@@ -62,18 +57,13 @@ public:
   void SetVerboseLevel(G4int i);
   G4int GetVerboseLevel() const;
 
-  // void SetPylist(G4int i);
-  // G4int GetPylist() const;
-
   // call pyxxx
   void CallPythiaInit(G4int beam, G4int target, G4double eCM);
-  void CallPythiaStat(G4int istat);
+  void CallPythiaStat();
+  void CallPythiaReadString(G4String par);
 
   // random numbers operations
   void SetRandomSeed(G4int iseed);
-  void CallPythiaReadString(G4String par);
-  // void CallPyrget(G4int lun, G4int move);
-  // void CallPyrset(G4int lun, G4int move);
   void PrintRandomStatus(std::ostream& ostr=G4cout) const;
 
   // setup user parameters (empty in default).
@@ -93,15 +83,5 @@ inline G4int HepMCG4Pythia8Interface::GetVerboseLevel() const
 {
   return verbose;
 }
-
-// inline void HepMCG4Pythia8Interface::SetPylist(G4int i)
-// {
-//   mpylist= i;
-// }
-
-// inline G4int HepMCG4Pythia8Interface::GetPylist() const
-// {
-//   return mpylist;
-// }
 
 #endif
