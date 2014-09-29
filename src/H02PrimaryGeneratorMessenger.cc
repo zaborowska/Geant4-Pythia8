@@ -23,7 +23,7 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/src/H02PrimaryGeneratorMessenger.cc
+/// \file eventgenerator/HepMC/HepMCEx03/src/H02PrimaryGeneratorMessenger.cc
 /// \brief Implementation of the H02PrimaryGeneratorMessenger class
 //
 //   $Id: H02PrimaryGeneratorMessenger.cc 77801 2013-11-28 13:33:20Z gcosmo $
@@ -55,7 +55,7 @@ H02PrimaryGeneratorMessenger::H02PrimaryGeneratorMessenger
   select= new G4UIcmdWithAString("/generator/select", this);
   select-> SetGuidance("select generator type");
   select-> SetParameterName("generator_type", false, false);
-  select-> SetCandidates("particleGun pythia pythia8 hepmcAscii");
+  select-> SetCandidates("particleGun pythia8 hepmcAscii");
   select-> SetDefaultValue("particleGun");
 }
 

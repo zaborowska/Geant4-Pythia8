@@ -28,17 +28,6 @@ include(${Geant4_USE_FILE})
 find_package(HepMC REQUIRED)
 
 #----------------------------------------------------------------------------
-# Find Pythia6 (required package)
-#
-find_package(Pythia6 QUIET)
-if(PYTHIA6_FOUND)
-  message(STATUS "G4 Examples: Pythia6 found. --> HepMCEx02 example with Pythia6 enabled.") 
-  add_definitions(-DG4LIB_USE_PYTHIA) 
-else()
-  set(PYTHIA6_LIBRARIES "")  
-endif()
-
-#----------------------------------------------------------------------------
 # Find Pythia8 (required package)
 #
 find_package(Pythia8 REQUIRED)
@@ -67,8 +56,8 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 add_executable(HepMCEx02 HepMCEx02.cc ${sources} ${headers})
 target_link_libraries(HepMCEx02 ${Geant4_LIBRARIES}
                       ${HEPMC_LIBRARIES} ${HEPMC_FIO_LIBRARIES}
-                      ${PYTHIA6_LIBRARIES} ${PYTHIA8_LIBRARY}
-                       ${PYTHIA8_HEPMC_LIBRARY} ${PYTHIA8_HAPDF_LIBRARY} gcc)
+                       ${PYTHIA8_LIBRARY}
+                       ${PYTHIA8_HEPMC_LIBRARY} ${PYTHIA8_HAPDF_LIBRARY})
 
 # if pythia is compiled with g77, link with -lg2c instead.
 #target_link_libraries(HepMCEx02 ${Geant4_LIBRARIES}
@@ -81,10 +70,9 @@ target_link_libraries(HepMCEx02 ${Geant4_LIBRARIES}
 # relies on these scripts being in the current working directory.
 #
 set(HepMCEx02_SCRIPTS
-    hepmc_ascii_Pythia6.in hepmc_ascii_Pythia8.in
-    hepmc_ascii.out hepmc_pygen.in hepmc_pygen.out vis.mac hepmc_pythia8.in
+    hepmc_ascii_Pythia8.in
+    vis.mac hepmc_pythia8.in
     data_Pythia8ToAscii/example_MyPythia8.dat
-    data_Pythia6ToAscii/example_MyPythia.dat
   )
 
 foreach(_script ${HepMCEx02_SCRIPTS})

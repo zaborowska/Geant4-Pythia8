@@ -1,7 +1,8 @@
 /generator/select pythia8
+/generator/pythia8/verbose 0
 
 /generator/pythia8/init 2212 2212 140.
 
 /run/beamOn 1
-/generator/pythia8/stat 1
+/generator/pythia8/stat
 

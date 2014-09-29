@@ -23,7 +23,7 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/include/H02PrimaryGeneratorAction.hh
+/// \file eventgenerator/HepMC/HepMCEx03/include/H02PrimaryGeneratorAction.hh
 /// \brief Definition of the H02PrimaryGeneratorAction class
 //
 // ====================================================================
@@ -59,7 +59,6 @@ public:
 private:
   G4VPrimaryGenerator* particleGun;
   G4VPrimaryGenerator* hepmcAscii;
-  G4VPrimaryGenerator* pythiaGen;
   G4VPrimaryGenerator* pythia8Gen;
 
   G4VPrimaryGenerator* currentGenerator;
