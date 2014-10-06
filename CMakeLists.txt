@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------
 # Setup the project
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-project(HepMCEx02)
+project(HepMCEx03)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
 
@@ -32,9 +32,10 @@ find_package(HepMC REQUIRED)
 #
 find_package(Pythia8 REQUIRED)
 if(PYTHIA8_FOUND)
-  message(STATUS "G4 Examples: Pythia8 found. --> HepMCEx02 example with Pythia8 enabled.") 
+  message(STATUS "G4 Examples: Pythia8 found. --> HepMCEx03 example with Pythia8 enabled.") 
   add_definitions(-DG4LIB_USE_PYTHIA8) 
 else()
+  message(STATUS "G4 Examples: Pythia8 -- NOT found.") 
   set(PYTHIA8_LIBRARY "")
   set(PYTHIA8_HEPMC_LIBRARY "")
   set(PYTHIA8_HAPDF_LIBRARY "")
@@ -53,9 +54,9 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(HepMCEx02 HepMCEx02.cc ${sources} ${headers})
-target_link_libraries(HepMCEx02 ${Geant4_LIBRARIES}
-                      ${HEPMC_LIBRARIES} ${HEPMC_FIO_LIBRARIES}
+add_executable(HepMCEx03 HepMCEx03.cc ${sources} ${headers})
+target_link_libraries(HepMCEx03 ${Geant4_LIBRARIES}
+                      ${HEPMC_LIBRARIES}
                        ${PYTHIA8_LIBRARY}
                        ${PYTHIA8_HEPMC_LIBRARY} ${PYTHIA8_HAPDF_LIBRARY})
 
@@ -66,16 +67,16 @@ target_link_libraries(HepMCEx02 ${Geant4_LIBRARIES}
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
-# build HepMCEx02. This is so that we can run the executable directly because it
+# build HepMCEx03. This is so that we can run the executable directly because it
 # relies on these scripts being in the current working directory.
 #
-set(HepMCEx02_SCRIPTS
+set(HepMCEx03_SCRIPTS
     hepmc_ascii_Pythia8.in
     vis.mac hepmc_pythia8.in
     data_Pythia8ToAscii/example_MyPythia8.dat
   )
 
-foreach(_script ${HepMCEx02_SCRIPTS})
+foreach(_script ${HepMCEx03_SCRIPTS})
   configure_file(
     ${PROJECT_SOURCE_DIR}/${_script}
     ${PROJECT_BINARY_DIR}/${_script}
@@ -86,5 +87,5 @@ endforeach()
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
-install(TARGETS HepMCEx02 DESTINATION bin)
+install(TARGETS HepMCEx03 DESTINATION bin)
 
