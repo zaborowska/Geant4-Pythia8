@@ -22,7 +22,7 @@ PYTHIA 8 in Geant4 example
 
 Detail of Pythia processes and beam/target, energy need to be specified in Geant macro. Examples:
 
-       pythia.in :
+       hepmc_pythia8.in :
 
         /generator/select pythia8
         /generator/pythia8/read "HardQCD:all = on"
@@ -31,17 +31,11 @@ Detail of Pythia processes and beam/target, energy need to be specified in Geant
 
 2.2. Pythia8 event saved in HepMC format to ROOT file, read by Geant4:
 
-       root.in:
+       hepmc_ascii_Pythia8.in:
 
-          /generator/select hepmcRoot
-          /generator/hepmcRoot/verbose 1
-          /generator/hepmcRoot/open PythiaInHepMC.root
-          /run/beamOn 1
-
-
-2.3. Simple particle gun (default)
-
-     gun.in
+         /generator/select hepmcAscii
+         /generator/hepmcAscii/open data_Pythia8ToAscii/example_MyPythia8.dat
+         /run/beamOn 1
 
 
 3. Geometry
