@@ -27,7 +27,7 @@ Detail of Pythia processes and beam/target, energy need to be specified in Geant
         /generator/pythia8/read "PhaseSpace:pTHatMin = 20."
         /generator/pythia8/init 2212 2212 14000.
 
-2.2. Pythia8 event saved in HepMC format to ROOT file, read by Geant4:
+2.2. Pythia8 event saved in HepMC format to ASCII file, read by Geant4:
 
        hepmc_ascii_Pythia8.in:
 
@@ -36,37 +36,13 @@ Detail of Pythia processes and beam/target, energy need to be specified in Geant
          /run/beamOn 1
 
 
-3. Geometry
--------------------
-
-Geometry is read from the GDML file. All GDMLs are stored in gdml/ directory:
-
-FCCSD.gdml - Complex detector with various EM calorimeters, hadron calorimeters, muon detectors (all sensitive detectors)
-
-FCCOnedetector.gdl - Only one EM calorimeter (sensitive detector)
-
-simple.gdml - Simple box as a detector
-
-
 4. Running an example
 -------------------
 
 4.1 Without GUI
 
-    For a simple geometry (box):
-
-        ./FCCfastsim ../gdml/simple.gdml pythia.in
-
-    For a complex geometry (with sensitive detectors):
-
-        ./FCCfastsim ../gdml/FCCSD.gdml root.in
+        ./HepMCEx03 hepmc_pythia8.in
 
 4.2 With GUI
 
-    For a simple geometry (box):
-
-        ./FCCfastsim ../gdml/simple.gdml
-
-    For a complex geometry (with sensitive detectors):
-
-        ./FCCfastsim ../gdml/FCCSD.gdml
+        ./HepMCEx03
