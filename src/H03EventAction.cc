@@ -23,22 +23,49 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/include/H02SteppingAction.hh
-/// \brief Definition of the H02SteppingAction class
+/// \file eventgenerator/HepMC/HepMCEx03/src/H03EventAction.cc
+/// \brief Implementation of the H03EventAction class
 //
-//   $Id: H02SteppingAction.hh 77801 2013-11-28 13:33:20Z gcosmo $
-//
-#ifndef H02_STEPPING_ACTION_H
-#define H02_STEPPING_ACTION_H
 
-#include "G4UserSteppingAction.hh"
+#include "G4Event.hh"
+#include "G4SDManager.hh"
+#include "H03EventAction.hh"
+#include "H03MuonSD.hh"
 
-class H02SteppingAction : public G4UserSteppingAction {
-public:
-  H02SteppingAction();
-  virtual ~H02SteppingAction();
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+H03EventAction::H03EventAction()
+{
+}
 
-  virtual void UserSteppingAction(const G4Step* astep);
-};
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+H03EventAction::~H03EventAction()
+{
+}
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void H03EventAction::BeginOfEventAction(const G4Event* anEvent)
+{
+  const G4Event* ev = anEvent; ev=0;
+#ifdef DEBUG_HEPMC
+  // printout primary information
+  G4cout << "Print out primary information" << G4endl;
+  G4int nVtx= anEvent-> GetNumberOfPrimaryVertex();
+  G4int i;
+  for(i=0; i< nVtx; i++) {
+    const G4PrimaryVertex* primaryVertex= anEvent-> GetPrimaryVertex(i);
+    primaryVertex-> Print();
+  }
 #endif
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void H03EventAction::EndOfEventAction(const G4Event*)
+{
+  G4cout << " Print out hit information" << G4endl;
+  G4SDManager* SDManager= G4SDManager::GetSDMpointer();
+  H03MuonSD* muonSD=
+    (H03MuonSD*)SDManager-> FindSensitiveDetector("/mydet/muon");
+  muonSD-> PrintAll();
+  muonSD-> DrawAll();
+  G4cout << G4endl;
+}

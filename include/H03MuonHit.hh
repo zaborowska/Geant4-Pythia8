@@ -23,29 +23,27 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/include/H02MuonHit.hh
-/// \brief Definition of the H02MuonHit class
+/// \file eventgenerator/HepMC/HepMCEx03/include/H03MuonHit.hh
+/// \brief Definition of the H03MuonHit class
 //
-//   $Id: H02MuonHit.hh 77801 2013-11-28 13:33:20Z gcosmo $
-//
-#ifndef H02_MUON_HIT_H
-#define H02_MUON_HIT_H
+#ifndef H03_MUON_HIT_H
+#define H03_MUON_HIT_H
 
 #include "G4VHit.hh"
 #include "G4THitsCollection.hh"
 #include "G4Allocator.hh"
 #include "G4ThreeVector.hh"
 
-class H02MuonHit : public G4VHit {
+class H03MuonHit : public G4VHit {
 public:
-  H02MuonHit();
-  H02MuonHit(G4int imod, G4String aname, const G4ThreeVector& pxyz,
+  H03MuonHit();
+  H03MuonHit(G4int imod, G4String aname, const G4ThreeVector& pxyz,
             const G4ThreeVector& xyz, G4double atof);
-  ~H02MuonHit();
+  ~H03MuonHit();
 
-  H02MuonHit(const H02MuonHit& right);
-  const H02MuonHit& operator=(const H02MuonHit& right);
-  G4int operator==(const H02MuonHit& right) const;
+  H03MuonHit(const H03MuonHit& right);
+  const H03MuonHit& operator=(const H03MuonHit& right);
+  G4int operator==(const H03MuonHit& right) const;
 
   void* operator new(size_t);
   void operator delete(void* aHit);
@@ -79,35 +77,35 @@ private:
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-inline void H02MuonHit::SetModuleID(G4int i) { moduleID=i; }
-inline G4int H02MuonHit::GetModuleID() const { return moduleID; }
+inline void H03MuonHit::SetModuleID(G4int i) { moduleID=i; }
+inline G4int H03MuonHit::GetModuleID() const { return moduleID; }
 
-inline void H02MuonHit::SetParticle(G4String aname) { pname=aname; }
-inline G4String H02MuonHit::GetParticle() const { return pname; }
+inline void H03MuonHit::SetParticle(G4String aname) { pname=aname; }
+inline G4String H03MuonHit::GetParticle() const { return pname; }
 
-inline void H02MuonHit::SetMomentum(const G4ThreeVector& pxyz)
+inline void H03MuonHit::SetMomentum(const G4ThreeVector& pxyz)
 { momentum=pxyz; }
-inline G4ThreeVector H02MuonHit::GetMomentum() const { return momentum; }
+inline G4ThreeVector H03MuonHit::GetMomentum() const { return momentum; }
 
-inline void H02MuonHit::SetPosition(const G4ThreeVector& xyz) { position=xyz; }
-inline G4ThreeVector H02MuonHit::GetPosition() const { return position; }
+inline void H03MuonHit::SetPosition(const G4ThreeVector& xyz) { position=xyz; }
+inline G4ThreeVector H03MuonHit::GetPosition() const { return position; }
 
-inline void H02MuonHit::SetTOF(G4double atof) { tof=atof; }
-inline G4double H02MuonHit::GetTOF() const { return tof; }
+inline void H03MuonHit::SetTOF(G4double atof) { tof=atof; }
+inline G4double H03MuonHit::GetTOF() const { return tof; }
 
-typedef G4THitsCollection<H02MuonHit> H02MuonHitsCollection;
-extern G4Allocator<H02MuonHit> H02MuonHitAllocator;
+typedef G4THitsCollection<H03MuonHit> H03MuonHitsCollection;
+extern G4Allocator<H03MuonHit> H03MuonHitAllocator;
 
-inline void* H02MuonHit::operator new(size_t)
+inline void* H03MuonHit::operator new(size_t)
 {
   void* aHit;
-  aHit= (void*)H02MuonHitAllocator.MallocSingle();
+  aHit= (void*)H03MuonHitAllocator.MallocSingle();
   return aHit;
 }
 
-inline void H02MuonHit::operator delete(void* aHit)
+inline void H03MuonHit::operator delete(void* aHit)
 {
-  H02MuonHitAllocator.FreeSingle((H02MuonHit*) aHit);
+  H03MuonHitAllocator.FreeSingle((H03MuonHit*) aHit);
 }
 
 #endif

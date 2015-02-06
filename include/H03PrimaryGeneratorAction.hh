@@ -23,17 +23,12 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx03/include/H02PrimaryGeneratorAction.hh
-/// \brief Definition of the H02PrimaryGeneratorAction class
+/// \file eventgenerator/HepMC/HepMCEx03/include/H03PrimaryGeneratorAction.hh
+/// \brief Definition of the H03PrimaryGeneratorAction class
 //
-// ====================================================================
-//
-//   H02PrimaryGeneratorAction.hh
-//   $Id: H02PrimaryGeneratorAction.hh 77801 2013-11-28 13:33:20Z gcosmo $
-//
-// ====================================================================
-#ifndef H02_PRIMARY_GENERATOR_ACTION_H
-#define H02_PRIMARY_GENERATOR_ACTION_H
+
+#ifndef H03_PRIMARY_GENERATOR_ACTION_H
+#define H03_PRIMARY_GENERATOR_ACTION_H
 
 #include <map>
 #include "globals.hh"
@@ -41,58 +36,59 @@
 
 class G4Event;
 class G4VPrimaryGenerator;
-class H02PrimaryGeneratorMessenger;
+class H03PrimaryGeneratorMessenger;
 
-class H02PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction {
+class H03PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction {
 public:
-  H02PrimaryGeneratorAction();
-  ~H02PrimaryGeneratorAction();
+   H03PrimaryGeneratorAction();
+   ~H03PrimaryGeneratorAction();
 
-  virtual void GeneratePrimaries(G4Event* anEvent);
+   virtual void GeneratePrimaries(G4Event* anEvent);
 
-  void SetGenerator(G4VPrimaryGenerator* gen);
-  void SetGenerator(G4String genname);
+   void SetGenerator(G4VPrimaryGenerator* gen);
+   void SetGenerator(G4String genname);
 
-  G4VPrimaryGenerator* GetGenerator() const;
-  G4String GetGeneratorName() const;
+   G4VPrimaryGenerator* GetGenerator() const;
+   G4String GetGeneratorName() const;
 
 private:
-  G4VPrimaryGenerator* particleGun;
-  G4VPrimaryGenerator* hepmcAscii;
-  G4VPrimaryGenerator* pythia8Gen;
+   G4VPrimaryGenerator* particleGun;
+   G4VPrimaryGenerator* hepmcAscii;
+   G4VPrimaryGenerator* pythia8Gen;
+   G4VPrimaryGenerator* hepmcRoot;
 
-  G4VPrimaryGenerator* currentGenerator;
-  G4String currentGeneratorName;
-  std::map<G4String, G4VPrimaryGenerator*> gentypeMap;
+   G4VPrimaryGenerator* currentGenerator;
+   G4String currentGeneratorName;
+   std::map<G4String, G4VPrimaryGenerator*> gentypeMap;
 
-  H02PrimaryGeneratorMessenger* messenger;
+   H03PrimaryGeneratorMessenger* messenger;
 
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-inline void H02PrimaryGeneratorAction::SetGenerator(G4VPrimaryGenerator* gen)
+inline void H03PrimaryGeneratorAction::SetGenerator(G4VPrimaryGenerator* gen)
 {
-  currentGenerator= gen;
+   currentGenerator= gen;
 }
 
-inline void H02PrimaryGeneratorAction::SetGenerator(G4String genname)
+inline void H03PrimaryGeneratorAction::SetGenerator(G4String genname)
 {
-  std::map<G4String, G4VPrimaryGenerator*>::iterator
-       pos = gentypeMap.find(genname);
-  if(pos != gentypeMap.end()) {
-    currentGenerator= pos->second;
-    currentGeneratorName= genname;
-  }
+   std::map<G4String, G4VPrimaryGenerator*>::iterator
+      pos = gentypeMap.find(genname);
+   if(pos != gentypeMap.end()) {
+      currentGenerator= pos->second;
+      currentGeneratorName= genname;
+   }
 }
 
-inline G4VPrimaryGenerator* H02PrimaryGeneratorAction::GetGenerator() const
+inline G4VPrimaryGenerator* H03PrimaryGeneratorAction::GetGenerator() const
 {
-  return currentGenerator;
+   return currentGenerator;
 }
 
-inline G4String H02PrimaryGeneratorAction::GetGeneratorName() const
+inline G4String H03PrimaryGeneratorAction::GetGeneratorName() const
 {
-  return currentGeneratorName;
+   return currentGeneratorName;
 }
 
 #endif

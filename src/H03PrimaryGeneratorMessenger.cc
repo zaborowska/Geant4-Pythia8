@@ -23,51 +23,60 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/src/H02EventAction.cc
-/// \brief Implementation of the H02EventAction class
+/// \file eventgenerator/HepMC/HepMCEx03/src/H03PrimaryGeneratorMessenger.cc
+/// \brief Implementation of the H03PrimaryGeneratorMessenger class
 //
-//   $Id: H02EventAction.cc 77801 2013-11-28 13:33:20Z gcosmo $
-//
-
-#include "G4Event.hh"
-#include "G4SDManager.hh"
-#include "H02EventAction.hh"
-#include "H02MuonSD.hh"
+#include "G4UIcmdWithABool.hh"
+#include "G4UIcmdWithAnInteger.hh"
+#include "G4UIcmdWithAString.hh"
+#include "G4UIcmdWithoutParameter.hh"
+#include "G4UIcommand.hh"
+#include "G4UIdirectory.hh"
+#include "G4UIparameter.hh"
+#include "H03PrimaryGeneratorMessenger.hh"
+#include "H03PrimaryGeneratorAction.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-H02EventAction::H02EventAction()
+H03PrimaryGeneratorMessenger::H03PrimaryGeneratorMessenger
+                            (H03PrimaryGeneratorAction* genaction)
+  : primaryAction(genaction)
 {
+  dir= new G4UIdirectory("/generator/");
+  dir-> SetGuidance("Control commands for primary generator");
+
+  select= new G4UIcmdWithAString("/generator/select", this);
+  select-> SetGuidance("select generator type");
+  select-> SetParameterName("generator_type", false, false);
+  select-> SetCandidates("particleGun pythia8 hepmcAscii hepmcRoot");
+  select-> SetDefaultValue("particleGun");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-H02EventAction::~H02EventAction()
+H03PrimaryGeneratorMessenger::~H03PrimaryGeneratorMessenger()
 {
+  delete select;
+  delete dir;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void H02EventAction::BeginOfEventAction(const G4Event* anEvent)
+void H03PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command,
+                                              G4String newValues)
 {
-  const G4Event* ev = anEvent; ev=0;
-#ifdef DEBUG_HEPMC
-  // printout primary information
-  G4cout << "Print out primary information" << G4endl;
-  G4int nVtx= anEvent-> GetNumberOfPrimaryVertex();
-  G4int i;
-  for(i=0; i< nVtx; i++) {
-    const G4PrimaryVertex* primaryVertex= anEvent-> GetPrimaryVertex(i);
-    primaryVertex-> Print();
+  if ( command==select) {
+    primaryAction-> SetGenerator(newValues);
+    G4cout << "current generator type: "
+            << primaryAction-> GetGeneratorName() << G4endl;
+  } else {
   }
-#endif
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void H02EventAction::EndOfEventAction(const G4Event*)
+G4String H03PrimaryGeneratorMessenger::GetCurrentValue(G4UIcommand* command)
 {
-  G4cout << " Print out hit information" << G4endl;
-  G4SDManager* SDManager= G4SDManager::GetSDMpointer();
-  H02MuonSD* muonSD=
-    (H02MuonSD*)SDManager-> FindSensitiveDetector("/mydet/muon");
-  muonSD-> PrintAll();
-  muonSD-> DrawAll();
-  G4cout << G4endl;
+  G4String cv, st;
+  if (command == select) {
+    cv= primaryAction-> GetGeneratorName();
+  }
+
+ return cv;
 }

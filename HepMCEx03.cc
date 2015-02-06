@@ -23,13 +23,9 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/HepMCEx02.cc
-/// \brief Main program of the eventgenerator/HepMC/HepMCEx02 example
+/// \file eventgenerator/HepMC/HepMCEx03/HepMCEx03.cc
+/// \brief Main program of the eventgenerator/HepMC/HepMCEx03 example
 //
-//
-// $Id: HepMCEx02.cc 73446 2013-08-27 11:32:59Z gcosmo $
-//
-// 
 // --------------------------------------------------------------
 //      GEANT 4 - example of HepMC-interface
 // --------------------------------------------------------------
@@ -37,11 +33,11 @@
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
 
-#include "H02DetectorConstruction.hh"
+#include "H03DetectorConstruction.hh"
 #include "FTFP_BERT.hh"
-#include "H02PrimaryGeneratorAction.hh"
-#include "H02EventAction.hh"
-#include "H02SteppingAction.hh"
+#include "H03PrimaryGeneratorAction.hh"
+#include "H03EventAction.hh"
+#include "H03SteppingAction.hh"
 
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
@@ -57,7 +53,7 @@ int main(int argc, char** argv)
 
   // User Initialization classes (mandatory)
   //
-  G4VUserDetectorConstruction* detector = new H02DetectorConstruction;
+  G4VUserDetectorConstruction* detector = new H03DetectorConstruction;
   runManager-> SetUserInitialization(detector);
   //
   G4VUserPhysicsList* physics = new FTFP_BERT;
@@ -67,13 +63,13 @@ int main(int argc, char** argv)
 
   // User Action classes
   //
-  G4VUserPrimaryGeneratorAction* gen_action = new H02PrimaryGeneratorAction;
+  G4VUserPrimaryGeneratorAction* gen_action = new H03PrimaryGeneratorAction;
   runManager-> SetUserAction(gen_action);
   //
-  G4UserEventAction* event_action = new H02EventAction;
+  G4UserEventAction* event_action = new H03EventAction;
   runManager-> SetUserAction(event_action);
   //
-  G4UserSteppingAction* stepping_action = new H02SteppingAction;
+  G4UserSteppingAction* stepping_action = new H03SteppingAction;
   runManager-> SetUserAction(stepping_action);
 
 #ifdef G4VIS_USE

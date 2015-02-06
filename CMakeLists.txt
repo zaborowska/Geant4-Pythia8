@@ -28,6 +28,10 @@ include(${Geant4_USE_FILE})
 find_package(HepMC REQUIRED)
 
 #----------------------------------------------------------------------------
+# Find ROOT (required package)
+#
+find_package(ROOT REQUIRED)
+#----------------------------------------------------------------------------
 # Find Pythia8 (required package)
 #
 find_package(Pythia8 REQUIRED)
@@ -47,9 +51,18 @@ endif()
 include_directories(${PROJECT_SOURCE_DIR}/include 
                     ${Geant4_INCLUDE_DIR}
                     ${HEPMC_INCLUDE_DIR}
-                    ${PYTHIA8_INCLUDE_DIR})
+                    ${PYTHIA8_INCLUDE_DIR}
+                    ${ROOT_INCLUDE_DIR})
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
+
+#----------------------------------------------------------------------------
+# Generate dictionary for input/output via HepMC ROOT files
+#
+ROOT_GENERATE_DICTIONARY(HepMC include/HepMCG4Classes.hh  LINKDEF include/HepMCG4LinkDef.h )
+add_library(HepMCdict SHARED ${sources} HepMC.cxx)
+target_link_libraries(HepMCdict ${HEPMC_LIBRARIES} ${ROOT_LIBRARIES})
+
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
@@ -58,12 +71,8 @@ add_executable(HepMCEx03 HepMCEx03.cc ${sources} ${headers})
 target_link_libraries(HepMCEx03 ${Geant4_LIBRARIES}
                       ${HEPMC_LIBRARIES}
                        ${PYTHIA8_LIBRARY}
-                       ${PYTHIA8_HEPMC_LIBRARY} ${PYTHIA8_HAPDF_LIBRARY})
-
-# if pythia is compiled with g77, link with -lg2c instead.
-#target_link_libraries(HepMCEx02 ${Geant4_LIBRARIES}
-#                      ${HEPMC_LIBRARIES} ${HEPMC_FIO_LIBRARIES}
-#                      ${PYTHIA6_LIBRARIES} g2c)
+                       ${PYTHIA8_HEPMC_LIBRARY} ${PYTHIA8_HAPDF_LIBRARY}
+                       HepMCdict ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
@@ -71,7 +80,7 @@ target_link_libraries(HepMCEx03 ${Geant4_LIBRARIES}
 # relies on these scripts being in the current working directory.
 #
 set(HepMCEx03_SCRIPTS
-    hepmc_ascii_Pythia8.in
+    hepmc_ascii.in hepmc_root.in
     vis.mac hepmc_pythia8.in
     data_Pythia8ToAscii/example_MyPythia8.dat
   )

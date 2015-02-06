@@ -23,36 +23,21 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/include/H02MuonSD.hh
-/// \brief Definition of the H02MuonSD class
+/// \file eventgenerator/HepMC/HepMCEx03/include/H03EventAction.hh
+/// \brief Definition of the H03EventAction class
 //
-//   $Id: H02MuonSD.hh 77801 2013-11-28 13:33:20Z gcosmo $
-//
-#ifndef H02_MUON_SD_H
-#define H02_MUON_SD_H
+#ifndef H03_EVENT_ACTION_H
+#define H03_EVENT_ACTION_H
 
-#include "G4VSensitiveDetector.hh"
-#include "H02MuonHit.hh"
+#include "G4UserEventAction.hh"
 
-class G4Step;
-class G4HCofThisEvent;
-class G4TouchableHistory;
-
-class H02MuonSD : public G4VSensitiveDetector {
+class H03EventAction : public G4UserEventAction {
 public:
-  H02MuonSD(G4String name);
-  ~H02MuonSD();
+  H03EventAction();
+  ~H03EventAction();
 
-  virtual void Initialize(G4HCofThisEvent* HCE);
-  virtual G4bool ProcessHits(G4Step* astep, G4TouchableHistory* ROhist);
-  virtual void EndOfEvent(G4HCofThisEvent* HCE);
-  virtual void clear();
-  virtual void DrawAll();
-  virtual void PrintAll();
-
-private:
-  H02MuonHitsCollection* hitCollection;
-
+  virtual void BeginOfEventAction(const G4Event* anEvent);
+  virtual void EndOfEventAction(const G4Event* anEvent);
 };
 
 #endif

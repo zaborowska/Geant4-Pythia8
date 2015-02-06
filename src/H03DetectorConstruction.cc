@@ -23,11 +23,9 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/src/H02DetectorConstruction.cc
-/// \brief Implementation of the H02DetectorConstruction class
+/// \file eventgenerator/HepMC/HepMCEx03/src/H03DetectorConstruction.cc
+/// \brief Implementation of the H03DetectorConstruction class
 //
-//    $Id: H02DetectorConstruction.cc 77801 2013-11-28 13:33:20Z gcosmo $
-
 #include "G4Box.hh"
 #include "G4ChordFinder.hh"
 #include "G4Element.hh"
@@ -40,9 +38,9 @@
 #include "G4TransportationManager.hh"
 #include "G4Tubs.hh"
 #include "G4VisAttributes.hh"
-#include "H02Field.hh"
-#include "H02DetectorConstruction.hh"
-#include "H02MuonSD.hh"
+#include "H03Field.hh"
+#include "H03DetectorConstruction.hh"
+#include "H03MuonSD.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 // constants (detector parameters)
@@ -71,17 +69,17 @@ static const G4double ROUT_ENDCAP_MUON= 4.5*m;
 static const G4double DZ_ENDCAP_MUON= 10.*cm;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-H02DetectorConstruction::H02DetectorConstruction()
+H03DetectorConstruction::H03DetectorConstruction()
 {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-H02DetectorConstruction::~H02DetectorConstruction()
+H03DetectorConstruction::~H03DetectorConstruction()
 {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-G4VPhysicalVolume* H02DetectorConstruction::Construct()
+G4VPhysicalVolume* H03DetectorConstruction::Construct()
 {
   // ==============================================================
   // Materials
@@ -223,13 +221,13 @@ G4VPhysicalVolume* H02DetectorConstruction::Construct()
   G4SDManager* SDman= G4SDManager::GetSDMpointer();
 
   G4String muonSDname= "/mydet/muon";
-  H02MuonSD* muonSD= new H02MuonSD(muonSDname);
+  H03MuonSD* muonSD= new H03MuonSD(muonSDname);
   SDman-> AddNewDetector(muonSD);
   barrelMuonLV-> SetSensitiveDetector(muonSD);
   endcapMuonLV-> SetSensitiveDetector(muonSD);
 
   // magnetic field
-  H02Field* myfield = new H02Field;
+  H03Field* myfield = new H03Field;
   G4FieldManager* fieldMgr=
     G4TransportationManager::GetTransportationManager()-> GetFieldManager();
   fieldMgr-> SetDetectorField(myfield);

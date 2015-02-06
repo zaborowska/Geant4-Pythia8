@@ -23,39 +23,20 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/include/H02PrimaryGeneratorMessenger.hh
-/// \brief Definition of the H02PrimaryGeneratorMessenger class
+/// \file eventgenerator/HepMC/HepMCEx03/include/H03SteppingAction.hh
+/// \brief Definition of the H03SteppingAction class
 //
-//   $Id: H02PrimaryGeneratorMessenger.hh 77801 2013-11-28 13:33:20Z gcosmo $
-//
-#ifndef H02_PRIMARY_GENERATOR_MESSENGER_H
-#define H02_PRIMARY_GENERATOR_MESSENGER_H
+#ifndef H03_STEPPING_ACTION_H
+#define H03_STEPPING_ACTION_H
 
-#include "globals.hh"
-#include "G4UImessenger.hh"
+#include "G4UserSteppingAction.hh"
 
-class H02PrimaryGeneratorAction;
-class G4UIdirectory;
-class G4UIcommand;
-class G4UIcmdWithoutParameter;
-class G4UIcmdWithABool;
-class G4UIcmdWithAnInteger;
-class G4UIcmdWithAString;
-
-class H02PrimaryGeneratorMessenger : public G4UImessenger {
+class H03SteppingAction : public G4UserSteppingAction {
 public:
-  H02PrimaryGeneratorMessenger(H02PrimaryGeneratorAction* genaction);
-  ~H02PrimaryGeneratorMessenger();
+  H03SteppingAction();
+  virtual ~H03SteppingAction();
 
-  void SetNewValue(G4UIcommand* command, G4String newValues);
-  G4String GetCurrentValue(G4UIcommand* command);
-
-private:
-  H02PrimaryGeneratorAction* primaryAction;
-
-  G4UIdirectory* dir;
-  G4UIcmdWithAString* select;
-
+  virtual void UserSteppingAction(const G4Step* astep);
 };
 
 #endif

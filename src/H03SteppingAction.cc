@@ -23,27 +23,46 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/src/H02Field.cc
-/// \brief Implementation of the H02Field class
+/// \file eventgenerator/HepMC/HepMCEx03/src/H03SteppingAction.cc
+/// \brief Implementation of the H03SteppingAction class
 //
-//   H02Field.hh
-//   $Id: H02Field.cc 77801 2013-11-28 13:33:20Z gcosmo $
-//
-#include "G4SystemOfUnits.hh"
-#include "H02Field.hh"
+#include "G4ParticleDefinition.hh"
+#include "G4ParticleTypes.hh"
+#include "G4SteppingManager.hh"
+#include "G4Step.hh"
+#include "G4StepPoint.hh"
+#include "G4Track.hh"
+#include "G4TrackStatus.hh"
+#include "G4VPhysicalVolume.hh"
+#include "H03SteppingAction.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void H02Field::GetFieldValue(const G4double Point[3], G4double* Bfield) const
+H03SteppingAction::H03SteppingAction()
 {
-  const G4double Bz= 3.0*tesla;
-  const G4double rmax_sq = sqr(1.*m);
-  const G4double zmax = 1.*m;
+}
 
-  Bfield[0]= 0.;
-  Bfield[1] = 0.;
-  if(std::abs(Point[2])<zmax && (sqr(Point[0])+sqr(Point[1]))<rmax_sq) {
-    Bfield[2]= Bz;
-  } else {
-    Bfield[2]= 0.;
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+H03SteppingAction::~H03SteppingAction()
+{
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void H03SteppingAction::UserSteppingAction(const G4Step* astep)
+{
+  G4Track* atrack= astep-> GetTrack();
+
+  if(atrack-> GetTrackStatus() != fAlive) return;
+  if(atrack-> GetParentID() == 0) return;
+
+  G4ParticleDefinition* particleType= atrack-> GetDefinition();
+  if((particleType == G4MuonPlus::MuonPlusDefinition())
+     || (particleType == G4MuonMinus::MuonMinusDefinition())) return;
+
+  G4StepPoint* prestep= astep-> GetPreStepPoint();
+  G4VPhysicalVolume* pv= prestep-> GetPhysicalVolume();
+  G4String pvname= pv-> GetName();
+  if(pvname=="BARREL_CAL_PV" || pvname=="ENDCAP_CAL_PV" ) {
+    atrack-> SetTrackStatus(fKillTrackAndSecondaries);
   }
 }

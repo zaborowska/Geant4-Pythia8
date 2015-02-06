@@ -23,25 +23,48 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/include/H02DetectorConstruction.hh
-/// \brief Definition of the H02DetectorConstruction class
+/// \file eventgenerator/HepMC/HepMCEx03/src/H03PrimaryGeneratorAction.cc
+/// \brief Implementation of the H03PrimaryGeneratorAction class
 //
-//   $Id: H02DetectorConstruction.hh 77801 2013-11-28 13:33:20Z gcosmo $
-//
+#include "G4Event.hh"
+#include "G4ParticleGun.hh"
+#include "HepMCG4AsciiReader.hh"
+#include "HepMCG4RootReader.hh"
+#include "HepMCG4Pythia8Interface.hh"
+#include "H03PrimaryGeneratorAction.hh"
+#include "H03PrimaryGeneratorMessenger.hh"
 
-#ifndef H02_DETECTOR_CONSTRUCTION_H
-#define H02_DETECTOR_CONSTRUCTION_H
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+H03PrimaryGeneratorAction::H03PrimaryGeneratorAction()
+{
+  // default generator is particle gun.
+  currentGenerator= particleGun= new G4ParticleGun();
+  currentGeneratorName= "particleGun";
+  hepmcAscii= new HepMCG4AsciiReader();
+  hepmcRoot= new HepMCG4RootReader();
+  pythia8Gen= new HepMCG4Pythia8Interface();
 
-#include "G4Types.hh"
-#include "G4VUserDetectorConstruction.hh"
+  gentypeMap["particleGun"]= particleGun;
+  gentypeMap["hepmcAscii"]= hepmcAscii;
+  gentypeMap["hepmcRoot"]= hepmcRoot;
+  gentypeMap["pythia8"]= pythia8Gen;
 
-class H02DetectorConstruction : public G4VUserDetectorConstruction {
-public:
-  H02DetectorConstruction();
-  ~H02DetectorConstruction();
+  messenger= new H03PrimaryGeneratorMessenger(this);
+}
 
-  virtual G4VPhysicalVolume* Construct();
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+H03PrimaryGeneratorAction::~H03PrimaryGeneratorAction()
+{
+  delete messenger;
+}
 
-};
-
-#endif
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void H03PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+{
+  if(currentGenerator)
+    currentGenerator-> GeneratePrimaryVertex(anEvent);
+  else
+    G4Exception("H03PrimaryGeneratorAction::GeneratePrimaries",
+                "InvalidSetup", FatalException,
+                "Generator is not instanciated.");
+}

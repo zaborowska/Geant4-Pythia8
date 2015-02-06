@@ -23,21 +23,19 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/src/H02MuonSD.cc
-/// \brief Implementation of the H02MuonSD class
-//
-//   $Id: H02MuonSD.cc 77801 2013-11-28 13:33:20Z gcosmo $
+/// \file eventgenerator/HepMC/HepMCEx03/src/H03MuonSD.cc
+/// \brief Implementation of the H03MuonSD class
 //
 #include "G4HCofThisEvent.hh"
 #include "G4TouchableHistory.hh"
 #include "G4Track.hh"
 #include "G4Step.hh"
 #include "G4VPhysicalVolume.hh"
-#include "H02MuonHit.hh"
-#include "H02MuonSD.hh"
+#include "H03MuonHit.hh"
+#include "H03MuonSD.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-H02MuonSD::H02MuonSD(G4String name)
+H03MuonSD::H03MuonSD(G4String name)
   : G4VSensitiveDetector(name)
 {
   G4String HCname;
@@ -45,22 +43,22 @@ H02MuonSD::H02MuonSD(G4String name)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-H02MuonSD::~H02MuonSD()
+H03MuonSD::~H03MuonSD()
 {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void H02MuonSD::Initialize(G4HCofThisEvent* HCE)
+void H03MuonSD::Initialize(G4HCofThisEvent* HCE)
 {
   static int HCID=-1;
-  hitCollection= new H02MuonHitsCollection(SensitiveDetectorName,
+  hitCollection= new H03MuonHitsCollection(SensitiveDetectorName,
                                           collectionName[0]);
   if(HCID<0) HCID= GetCollectionID(0);
   HCE-> AddHitsCollection(HCID, hitCollection);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-G4bool H02MuonSD::ProcessHits(G4Step* astep, G4TouchableHistory*)
+G4bool H03MuonSD::ProcessHits(G4Step* astep, G4TouchableHistory*)
 {
   G4ParticleDefinition* particle= astep-> GetTrack()-> GetDefinition();
   if(particle-> GetPDGCharge() == 0.) return false;
@@ -77,30 +75,30 @@ G4bool H02MuonSD::ProcessHits(G4Step* astep, G4TouchableHistory*)
   G4int id= volume-> GetCopyNo();
   if(volume-> GetName() == "ENDCAP_MUON_PV") id +=10;
 
-  H02MuonHit* aHit=
-    new H02MuonHit(id, particle-> GetParticleName(), vmom, vpos, tof);
+  H03MuonHit* aHit=
+    new H03MuonHit(id, particle-> GetParticleName(), vmom, vpos, tof);
   hitCollection-> insert(aHit);
   return true;
 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void H02MuonSD::EndOfEvent(G4HCofThisEvent*)
+void H03MuonSD::EndOfEvent(G4HCofThisEvent*)
 {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void H02MuonSD::clear()
+void H03MuonSD::clear()
 {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void H02MuonSD::DrawAll()
+void H03MuonSD::DrawAll()
 {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void H02MuonSD::PrintAll()
+void H03MuonSD::PrintAll()
 {
   G4int nHit= hitCollection-> entries();
   G4cout << "------------------------------------------" << G4endl

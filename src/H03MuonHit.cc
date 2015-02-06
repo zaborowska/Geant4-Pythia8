@@ -23,10 +23,8 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/src/H02MuonHit.cc
-/// \brief Implementation of the H02MuonHit class
-//
-//   $Id: H02MuonHit.cc 77801 2013-11-28 13:33:20Z gcosmo $
+/// \file eventgenerator/HepMC/HepMCEx03/src/H03MuonHit.cc
+/// \brief Implementation of the H03MuonHit class
 //
 #include <iomanip>
 #include "G4Circle.hh"
@@ -34,18 +32,18 @@
 #include "G4SystemOfUnits.hh"
 #include "G4VisAttributes.hh"
 #include "G4VVisManager.hh"
-#include "H02MuonHit.hh"
+#include "H03MuonHit.hh"
 
-G4Allocator<H02MuonHit> H02MuonHitAllocator;
+G4Allocator<H03MuonHit> H03MuonHitAllocator;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-H02MuonHit::H02MuonHit()
+H03MuonHit::H03MuonHit()
   : moduleID(-1)
 {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-H02MuonHit::H02MuonHit(G4int imod, G4String aname,
+H03MuonHit::H03MuonHit(G4int imod, G4String aname,
                      const G4ThreeVector& pxyz,
                      const G4ThreeVector& xyz, G4double atof)
   : moduleID(imod), pname(aname), momentum(pxyz),
@@ -54,19 +52,19 @@ H02MuonHit::H02MuonHit(G4int imod, G4String aname,
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-H02MuonHit::~H02MuonHit()
+H03MuonHit::~H03MuonHit()
 {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-H02MuonHit::H02MuonHit(const H02MuonHit& right)
+H03MuonHit::H03MuonHit(const H03MuonHit& right)
   : G4VHit()
 {
   *this= right;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-const H02MuonHit& H02MuonHit::operator=(const H02MuonHit& right)
+const H03MuonHit& H03MuonHit::operator=(const H03MuonHit& right)
 {
   moduleID= right.moduleID;
   pname= right.pname;
@@ -78,13 +76,13 @@ const H02MuonHit& H02MuonHit::operator=(const H02MuonHit& right)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-G4int H02MuonHit::operator==(const H02MuonHit& right) const
+G4int H03MuonHit::operator==(const H03MuonHit& right) const
 {
   return (this==&right) ? 1 : 0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void H02MuonHit::Draw()
+void H03MuonHit::Draw()
 {
   const G4double pt_min=20.*GeV;
 
@@ -105,7 +103,7 @@ void H02MuonHit::Draw()
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void H02MuonHit::Print()
+void H03MuonHit::Print()
 {
   G4int id= moduleID;
   G4String tag="B";

@@ -23,23 +23,48 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file eventgenerator/HepMC/HepMCEx02/include/H02EventAction.hh
-/// \brief Definition of the H02EventAction class
+// based on G4 examples/extended/eventgenerator/HepMC/HepMCEx01/src/HepMCG4AsciiReader.cc
 //
-//   $Id: H02EventAction.hh 77801 2013-11-28 13:33:20Z gcosmo $
-//
-#ifndef H02_EVENT_ACTION_H
-#define H02_EVENT_ACTION_H
 
-#include "G4UserEventAction.hh"
+#include "HepMCG4RootReader.hh"
+#include "HepMCG4RootReaderMessenger.hh"
 
-class H02EventAction : public G4UserEventAction {
-public:
-  H02EventAction();
-  ~H02EventAction();
+#include <iostream>
+#include <fstream>
 
-  virtual void BeginOfEventAction(const G4Event* anEvent);
-  virtual void EndOfEventAction(const G4Event* anEvent);
-};
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+HepMCG4RootReader::HepMCG4RootReader()
+   : fVerbose(0)
+{
+   gSystem->Load("libHepMCdict");
+   fMessenger= new HepMCG4RootReaderMessenger(this);
+}
 
-#endif
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+HepMCG4RootReader::~HepMCG4RootReader()
+{
+   delete fMessenger;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void HepMCG4RootReader::Initialize()
+{
+   G4cout << fFileName << G4endl;
+   fRootInput= new TFile(fFileName.c_str());
+   if(fVerbose>0) fRootInput->ls();
+   fLinkToEvent = (fRootInput->GetListOfKeys())->FirstLink();
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+HepMC::GenEvent* HepMCG4RootReader::GenerateHepMCEvent()
+{
+   HepMC::GenEvent* evt;
+   G4String keyName;
+   TKey* key;
+   key = (TKey*)fLinkToEvent->GetObject();
+   evt = (HepMC::GenEvent*) fRootInput->Get(key->GetName());
+   if(fVerbose>0) G4cout << "Getting HepMC EVENT named: " << key->GetName() << G4endl;
+   fLinkToEvent=fLinkToEvent->Next();
+   if(fVerbose>0) evt->print();
+   return evt;
+}
