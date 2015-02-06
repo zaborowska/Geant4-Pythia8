@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
     // Construct new empty HepMC event and fill it.
     // Units will be as chosen for HepMC build, but can be changed
     // by arguments, e.g. GenEvt( HepMC::Units::GEV, HepMC::Units::MM)
-    HepMC::GenEvent* hepmcevt = new HepMC::GenEvent();
+    HepMC::GenEvent* hepmcevt = new HepMC::GenEvent( HepMC::Units::MEV, HepMC::Units::MM);
     ToHepMC.fill_next_event( pythia, hepmcevt );
 
     // Write the HepMC event to file. Done with it.

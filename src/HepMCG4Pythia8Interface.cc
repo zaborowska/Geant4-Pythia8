@@ -94,7 +94,7 @@ HepMC::GenEvent* HepMCG4Pythia8Interface::GenerateHepMCEvent()
 {
    pythia.next();
 
-   HepMC::GenEvent* hepmcevt = new HepMC::GenEvent();
+   HepMC::GenEvent* hepmcevt = new HepMC::GenEvent(HepMC::Units::MEV, HepMC::Units::MM);
    ToHepMC.fill_next_event( pythia, hepmcevt );
    if(verbose>0) hepmcevt-> print();
 

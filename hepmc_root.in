@@ -8,5 +8,4 @@
 #/generator/hepmcRoot/verbose 1
 /generator/hepmcRoot/open ../PythiaInHepMC_140GeV.root
 
-/run/beamOn 10
-
+/run/beamOn 1

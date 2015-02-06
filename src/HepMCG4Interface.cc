@@ -71,11 +71,13 @@ G4bool HepMCG4Interface::CheckVertexInsideWorld
 void HepMCG4Interface::HepMC2G4(const HepMC::GenEvent* hepmcevt,
                                 G4Event* g4event)
 {
-  for(HepMC::GenEvent::vertex_const_iterator vitr= hepmcevt->vertices_begin();
-      vitr != hepmcevt->vertices_end(); ++vitr ) { // loop for vertex ...
+   G4cout << "Default units: " << HepMC::Units::name(HepMC::Units::default_momentum_unit())
+          << " " << HepMC::Units::name(HepMC::Units::default_length_unit()) << std::endl;
+   for(HepMC::GenEvent::vertex_const_iterator vitr= hepmcevt->vertices_begin();
+       vitr != hepmcevt->vertices_end(); ++vitr ) { // loop for vertex ...
 
-    // real vertex?
-    G4bool qvtx=false;
+      // real vertex?
+      G4bool qvtx=false;
     for (HepMC::GenVertex::particle_iterator
            pitr= (*vitr)->particles_begin(HepMC::children);
          pitr != (*vitr)->particles_end(HepMC::children); ++pitr) {
@@ -107,7 +109,7 @@ void HepMCG4Interface::HepMC2G4(const HepMC::GenEvent* hepmcevt,
       pos= (*vpitr)-> momentum();
       G4LorentzVector p(pos.px(), pos.py(), pos.pz(), pos.e());
       G4PrimaryParticle* g4prim=
-        new G4PrimaryParticle(pdgcode, p.x()*GeV, p.y()*GeV, p.z()*GeV);
+        new G4PrimaryParticle(pdgcode, p.x()*MeV, p.y()*MeV, p.z()*MeV);
 
       g4vtx-> SetPrimary(g4prim);
     }
@@ -118,7 +120,7 @@ void HepMCG4Interface::HepMC2G4(const HepMC::GenEvent* hepmcevt,
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 HepMC::GenEvent* HepMCG4Interface::GenerateHepMCEvent()
 {
-  HepMC::GenEvent* aevent= new HepMC::GenEvent();
+  HepMC::GenEvent* aevent= new HepMC::GenEvent(HepMC::Units::MEV, HepMC::Units::MM);
   return aevent;
 }
 
