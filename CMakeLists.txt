@@ -82,7 +82,6 @@ target_link_libraries(HepMCEx03 ${Geant4_LIBRARIES}
 set(HepMCEx03_SCRIPTS
     hepmc_ascii.in hepmc_root.in
     vis.mac hepmc_pythia8.in
-    data_Pythia8ToAscii/example_MyPythia8.dat
   )
 
 foreach(_script ${HepMCEx03_SCRIPTS})
